@@ -16,8 +16,26 @@ type User struct {
 	DisplayPictureUrl string `json:"display_picture_url"`
 }
 
-type Response struct {
-	Status  int    `json:"status"`
-	Message string `json:"message"`
-	Data    []User
+type RegisterUser struct {
+	Username  string `json:"username" db:"username"`
+	Email string `json:"email" db:"email"`
+	Password string `json:"password" db:"password"`
+}
+
+type UsernameAndPassword struct {
+	Username  string `json:"username" db:"username"`
+	Password string `json:"password" db:"password"`
+}
+
+type EmailAndPassword struct {
+	Email string `json:"email" db:"email" form:"email"`
+	Password string `json:"password" db:"password" form:"password"`
+}
+
+type Email struct {
+	Username string `json:"email" db:"email"`
+}
+
+type Username struct {
+	Username string `json:"username" db:"username"`
 }

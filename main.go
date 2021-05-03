@@ -1,7 +1,10 @@
 package main
 
 import (
-	"go-marketplace-rest-api/controllers"
+	"go-marketplace-rest-api/controllers/login"
+	"go-marketplace-rest-api/controllers/register"
+	"go-marketplace-rest-api/controllers/seller"
+	"go-marketplace-rest-api/helpers"
 	"log"
 	"net/http"
 	"os"
@@ -9,10 +12,14 @@ import (
 	_ "github.com/lib/pq"
 )
 
+
+
 func main() {
 
-	http.HandleFunc("/", controllers.GetSeller)
-	http.HandleFunc("/insert", controllers.InsertSeller)
+	http.HandleFunc("/", seller.GetSeller)
+	http.HandleFunc("/seller/insert", seller.InsertSeller)
+	http.HandleFunc("/register/insert", register.HandleNewUser)
+	http.HandleFunc("/login", login.HandleLoginWithEmailAndPassword)
 	http.Handle("/client", http.FileServer(http.Dir("./static")))
 
 	// Get the PORT from heroku env
@@ -22,6 +29,8 @@ func main() {
 	if os.Getenv("PORT") == "" {
 		port = "8080"
 	}
+
+	helpers.InitDB()
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

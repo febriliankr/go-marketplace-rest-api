@@ -1,4 +1,4 @@
-package controllers
+package seller
 
 import (
 	"encoding/json"
@@ -11,7 +11,7 @@ import (
 
 func GetSeller(w http.ResponseWriter, r *http.Request) {
 	db, err := helpers.InitDB()
-	if err != nil{
+	if err != nil {
 		fmt.Errorf("Something Happened with the DB", err.Error())
 	}
 
@@ -55,8 +55,8 @@ func InsertSeller(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sqlStatement := `INSERT INTO person (username, display_name, email, display_picture_url, address) VALUES ($1, $2, $3, $4, $5)`
-	_, err = db.Exec(sqlStatement, newSeller.Username, newSeller.Email, )
+	sqlStatement := `INSERT INTO seller (username, display_name, email, display_picture_url, address) VALUES ($1, $2, $3, $4, $5)`
+	_, err = db.Queryx(sqlStatement, newSeller.Username, newSeller.Email, newSeller.DisplayPictureUrl, newSeller.DisplayName, newSeller.Address)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		panic(err)
@@ -64,3 +64,5 @@ func InsertSeller(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 }
+
+
