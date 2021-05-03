@@ -10,11 +10,7 @@ import (
 )
 
 var (
-	host     = "ec2-23-23-128-222.compute-1.amazonaws.com"
-	port     = 5432
-	dbname   = "ddjpiu188bbrp1"
-	user     = "pawihmetgbdaiw"
-	password = "2652632a0823686f891bdf84bbb5c22b2c6cdcbffcd69fc4e8e0cdf5a9f72af1"
+
 )
 //
 //CREATE TABLE public.seller (
