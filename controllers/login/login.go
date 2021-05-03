@@ -11,8 +11,6 @@ import (
 	"strconv"
 )
 
-
-
 func HandleLoginWithEmailAndPassword(w http.ResponseWriter, r *http.Request) {
 
 	db, err := helpers.InitDB()
@@ -32,7 +30,21 @@ func HandleLoginWithEmailAndPassword(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	var credentials []models.IdUsernameAndPassword
+	if !rows.Next() {
+		responseData := models.LoginErrorResponse{
+			Status:     "ERROR",
+			UserExists: false,
+			Message:    "Username not found",
+		}
+		responseBytes, _ := json.MarshalIndent(responseData, "", "\t")
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, err = w.Write(responseBytes)
+		if err != nil {
+			panic(err)
+		}
+		return
+	}
 
 	for rows.Next() {
 
@@ -49,35 +61,39 @@ func HandleLoginWithEmailAndPassword(w http.ResponseWriter, r *http.Request) {
 			intId, err := strconv.Atoi(credential.Id)
 
 			if err != nil {
-				fmt.Errorf(err.Error())
+				fmt.Println(err.Error())
 			}
 
 			responseData := models.LoginResponse{
-				Status:   "OK",
+				Status:     "OK",
 				UserExists: true,
-				Id: intId,
-				Username: credential.Username,
+				Id:         intId,
+				Username:   credential.Username,
 			}
 
 			responseBytes, _ := json.MarshalIndent(responseData, "", "\t")
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusOK)
-			w.Write(responseBytes)
+			_, err = w.Write(responseBytes)
+			if err != nil {
+				panic(err)
+			}
 			return
 		} else {
 			responseData := models.LoginErrorResponse{
-				Status:   "ERROR",
+				Status:     "ERROR",
 				UserExists: true,
-				Message: "Wrong Password",
+				Message:    "Wrong Password",
 			}
 			responseBytes, _ := json.MarshalIndent(responseData, "", "\t")
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusOK)
-			w.Write(responseBytes)
+			_, err = w.Write(responseBytes)
+			if err != nil {
+				panic(err)
+			}
 			return
 		}
-
-		credentials = append(credentials, credential)
 	}
 
 }
