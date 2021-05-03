@@ -1,6 +1,6 @@
 # Golang REST API for Marketplace
 
-With minimum dependencies, using PSQL DB
+Building REST API for Online Marketplace
 
 ## Related Repositories
 
