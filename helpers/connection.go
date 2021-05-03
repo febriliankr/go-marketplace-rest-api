@@ -16,7 +16,15 @@ var (
 	user     = "pawihmetgbdaiw"
 	password = "2652632a0823686f891bdf84bbb5c22b2c6cdcbffcd69fc4e8e0cdf5a9f72af1"
 )
-
+//
+//CREATE TABLE public.seller (
+//id integer NOT NULL,
+//username character varying DEFAULT ''::character varying NOT NULL,
+//email character varying DEFAULT ''::character varying,
+//display_picture_url character varying DEFAULT ''::character varying,
+//address character varying DEFAULT ''::character varying,
+//display_name character varying
+//);
 
 
 
