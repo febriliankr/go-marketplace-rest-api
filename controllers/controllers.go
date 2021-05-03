@@ -1,0 +1,64 @@
+package controllers
+
+import (
+	"encoding/json"
+	"fmt"
+	"go-marketplace-rest-api/helpers"
+	"go-marketplace-rest-api/models"
+	"log"
+	"net/http"
+)
+
+func GetSeller(w http.ResponseWriter, r *http.Request) {
+	db, err := helpers.InitDB()
+	if err != nil{
+		fmt.Errorf("Something Happened with the DB", err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Queryx("SELECT * FROM seller")
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+
+	var sellers []models.Seller
+
+	for rows.Next() {
+		var seller models.Seller
+		err := rows.StructScan(&seller)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		fmt.Printf("%#v\n", seller)
+		sellers = append(sellers, seller)
+	}
+
+	responseBytes, _ := json.MarshalIndent(sellers, "", "\t")
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(responseBytes)
+}
+
+func InsertSeller(w http.ResponseWriter, r *http.Request) {
+	db := helpers.OpenConnection()
+
+	var newSeller models.Seller
+	err := json.NewDecoder(r.Body).Decode(&newSeller)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Fatal(err.Error())
+		return
+	}
+
+	sqlStatement := `INSERT INTO person (username, display_name, email, display_picture_url, address) VALUES ($1, $2, $3, $4, $5)`
+	_, err = db.Exec(sqlStatement, newSeller.Username, newSeller.Email, )
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		panic(err)
+	}
+
+	w.WriteHeader(http.StatusOK)
+	defer db.Close()
+}
