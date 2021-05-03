@@ -2,6 +2,9 @@
 
 With minimum dependencies, using PSQL DB
 
+## Related Repositories
+
+https://github.com/febriliankr/go-auth-jwt/
 
 ## Pretty Printing HTTP Requests in Golang
 

@@ -28,7 +28,6 @@ func GetSeller(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		fmt.Printf("%#v\n", seller)
 		sellers = append(sellers, seller)
 	}
 

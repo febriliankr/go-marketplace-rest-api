@@ -18,7 +18,7 @@ func main() {
 
 	http.HandleFunc("/", seller.GetSeller)
 	http.HandleFunc("/seller/insert", seller.InsertSeller)
-	http.HandleFunc("/register/insert", register.HandleNewUser)
+	http.HandleFunc("/register", register.HandleNewUser)
 	http.HandleFunc("/login", login.HandleLoginWithEmailAndPassword)
 	http.Handle("/client", http.FileServer(http.Dir("./static")))
 

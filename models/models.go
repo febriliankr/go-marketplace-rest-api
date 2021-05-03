@@ -27,15 +27,21 @@ type UsernameAndPassword struct {
 	Password string `json:"password" db:"password"`
 }
 
-type EmailAndPassword struct {
-	Email string `json:"email" db:"email" form:"email"`
-	Password string `json:"password" db:"password" form:"password"`
+type IdUsernameAndPassword struct {
+	Id    string `json:"id"`
+	Username  string `json:"username" db:"username"`
+	Password string `json:"password" db:"password"`
 }
 
-type Email struct {
-	Username string `json:"email" db:"email"`
+type LoginResponse struct {
+	Status string `json:"status"`
+	UserExists bool `json:"userExists"`
+	Id    int `json:"id"`
+	Username  string `json:"username" db:"username"`
 }
 
-type Username struct {
-	Username string `json:"username" db:"username"`
+type LoginErrorResponse struct {
+	Status string `json:"status"`
+	UserExists bool `json:"userExists"`
+	Message string `json:"message"`
 }
