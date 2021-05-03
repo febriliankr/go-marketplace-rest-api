@@ -14,13 +14,11 @@ func GetSeller(w http.ResponseWriter, r *http.Request) {
 	if err != nil{
 		fmt.Errorf("Something Happened with the DB", err.Error())
 	}
-	defer db.Close()
 
 	rows, err := db.Queryx("SELECT * FROM seller")
 	if err != nil {
 		panic(err)
 	}
-	defer rows.Close()
 
 	var sellers []models.Seller
 
@@ -41,10 +39,15 @@ func GetSeller(w http.ResponseWriter, r *http.Request) {
 }
 
 func InsertSeller(w http.ResponseWriter, r *http.Request) {
-	db := helpers.OpenConnection()
+	db, err := helpers.InitDB()
+
+	if err != nil {
+		panic(err.Error())
+
+	}
 
 	var newSeller models.Seller
-	err := json.NewDecoder(r.Body).Decode(&newSeller)
+	err = json.NewDecoder(r.Body).Decode(&newSeller)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -60,5 +63,4 @@ func InsertSeller(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	defer db.Close()
 }
