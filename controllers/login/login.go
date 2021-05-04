@@ -30,21 +30,6 @@ func HandleLoginWithEmailAndPassword(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	if !rows.Next() {
-		responseData := models.LoginErrorResponse{
-			Status:     "ERROR",
-			UserExists: false,
-			Message:    "Username not found",
-		}
-		responseBytes, _ := json.MarshalIndent(responseData, "", "\t")
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		_, err = w.Write(responseBytes)
-		if err != nil {
-			panic(err)
-		}
-		return
-	}
 
 	for rows.Next() {
 
@@ -95,5 +80,21 @@ func HandleLoginWithEmailAndPassword(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	if !rows.Next() {
+		responseData := models.LoginErrorResponse{
+			Status:     "ERROR",
+			UserExists: false,
+			Message:    "Username not found",
+		}
+		responseBytes, _ := json.MarshalIndent(responseData, "", "\t")
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, err = w.Write(responseBytes)
+		if err != nil {
+			panic(err)
+		}
+		return
+	}
+
 
 }
