@@ -2,6 +2,11 @@
 
 Building REST API for Online Marketplace
 
+## Connect to DB
+
+
+psql -U postgres -d marketplace
+
 ## Related Repositories
 
 https://github.com/febriliankr/go-auth-jwt/
