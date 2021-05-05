@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func InitializeRoutes(){:
+func InitializeRoutes(){
 	http.HandleFunc("/seller", seller.GetSeller)
 	http.HandleFunc("/seller/insert", seller.InsertSeller)
 	http.HandleFunc("/register", register.HandleNewUser)
