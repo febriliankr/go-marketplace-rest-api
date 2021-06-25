@@ -12,7 +12,8 @@ import (
 func GetSeller(w http.ResponseWriter, r *http.Request) {
 	db, err := helpers.InitDB()
 	if err != nil {
-		fmt.Errorf("Something Happened with the DB", err.Error())
+		message := fmt.Errorf("something Happened with the database, %s", err.Error())
+		fmt.Println(message)
 	}
 
 	rows, err := db.Queryx("SELECT * FROM seller")
@@ -63,5 +64,3 @@ func InsertSeller(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 }
-
-
