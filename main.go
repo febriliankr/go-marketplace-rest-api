@@ -14,6 +14,8 @@ func main() {
 
 	routes.InitializeRoutes()
 
+
+
 	// Get the PORT from heroku env
 	port := os.Getenv("PORT")
 
